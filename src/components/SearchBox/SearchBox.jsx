@@ -1,8 +1,8 @@
 import React from 'react';
-import css from './SearchBox.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeFilter } from '../../redux/filters/slice';
 import { selectFilter } from '../../redux/filters/selectors';
+import { TextField, Box, Typography } from '@mui/material';
 
 const SearchBox = () => {
   const dispatch = useDispatch();
@@ -13,16 +13,27 @@ const SearchBox = () => {
   };
 
   return (
-    <div className={css.searchBox}>
-      <p>Find contacts by name or phone number</p>
-      <input
-        className={css.searchBoxInput}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        width: '100%',
+      }}
+    >
+      <Typography variant="body1" component="p">
+        Find contacts by name or phone number
+      </Typography>
+      <TextField
         type="text"
         value={filter}
         onChange={handleFilterChange}
-        placeholder="Enter name..."
+        placeholder="Enter name or phone number..."
+        variant="outlined"
+        fullWidth
+        sx={{ maxWidth: 400 }}
       />
-    </div>
+    </Box>
   );
 };
 

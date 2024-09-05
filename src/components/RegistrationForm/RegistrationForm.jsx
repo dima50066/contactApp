@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
+import { TextField, Button, Box } from '@mui/material';
 import { register } from '../../redux/auth/operations';
 
 export const RegistrationForm = () => {
@@ -27,7 +28,7 @@ export const RegistrationForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '', // Додайте 'name' до initialValues
+      name: '',
       email: '',
       password: '',
     },
@@ -44,50 +45,55 @@ export const RegistrationForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          onChange={formik.handleChange}
-          value={formik.values.name}
-          aria-invalid={formik.errors.name ? 'true' : 'false'}
-        />
-        {formik.errors.name ? (
-          <div role="alert">{formik.errors.name}</div>
-        ) : null}
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-          aria-invalid={formik.errors.email ? 'true' : 'false'}
-        />
-        {formik.errors.email ? (
-          <div role="alert">{formik.errors.email}</div>
-        ) : null}
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          onChange={formik.handleChange}
-          value={formik.values.password}
-          aria-invalid={formik.errors.password ? 'true' : 'false'}
-        />
-        {formik.errors.password ? (
-          <div role="alert">{formik.errors.password}</div>
-        ) : null}
-      </div>
-      <button type="submit">Register</button>
-    </form>
+    <Box
+      component="form"
+      onSubmit={formik.handleSubmit}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        width: '300px',
+        margin: '0 auto',
+      }}
+    >
+      <TextField
+        id="name"
+        name="name"
+        label="Name"
+        variant="outlined"
+        onChange={formik.handleChange}
+        value={formik.values.name}
+        error={Boolean(formik.errors.name)}
+        helperText={formik.errors.name}
+        fullWidth
+      />
+      <TextField
+        id="email"
+        name="email"
+        label="Email"
+        variant="outlined"
+        type="email"
+        onChange={formik.handleChange}
+        value={formik.values.email}
+        error={Boolean(formik.errors.email)}
+        helperText={formik.errors.email}
+        fullWidth
+      />
+      <TextField
+        id="password"
+        name="password"
+        label="Password"
+        variant="outlined"
+        type="password"
+        onChange={formik.handleChange}
+        value={formik.values.password}
+        error={Boolean(formik.errors.password)}
+        helperText={formik.errors.password}
+        fullWidth
+      />
+      <Button type="submit" variant="contained" color="primary" fullWidth>
+        Register
+      </Button>
+    </Box>
   );
 };

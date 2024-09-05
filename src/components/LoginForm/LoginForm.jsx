@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../redux/auth/operations';
 import { Formik, Form, Field } from 'formik';
+import { TextField, Button, Box } from '@mui/material';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -41,19 +42,45 @@ export const LoginForm = () => {
       validate={validate}
       onSubmit={handleSubmit}
     >
-      <Form>
-        <label htmlFor="email">Email</label>
-        <Field
-          placeholder="Електронна пошта"
-          as="input"
-          type="email"
-          name="email"
-        />
-        <label htmlFor="password">password</label>
-        <Field type="password" name="password" />
-
-        <button type="submit">Log in</button>
-      </Form>
+      {({ errors, touched, handleChange, handleBlur, values }) => (
+        <Form>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              width: '300px',
+              margin: '0 auto',
+            }}
+          >
+            <TextField
+              label="Email"
+              type="email"
+              name="email"
+              variant="outlined"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
+              fullWidth
+            />
+            <TextField
+              label="Password"
+              type="password"
+              name="password"
+              variant="outlined"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
+              fullWidth
+            />
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              Log in
+            </Button>
+          </Box>
+        </Form>
+      )}
     </Formik>
   );
 };

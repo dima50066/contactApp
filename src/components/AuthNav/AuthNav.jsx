@@ -1,21 +1,41 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import css from './AuthNav.module.css';
+import { Tabs, Tab } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 export const AuthNav = () => {
+  const location = useLocation();
+
   return (
-    <nav className={css.nav}>
-      <NavLink
+    <Tabs
+      value={location.pathname}
+      textColor="primary"
+      indicatorColor="primary"
+      variant="fullWidth"
+      sx={{ borderBottom: 1, borderColor: 'divider' }}
+    >
+      <Tab
+        component={NavLink}
         to="/register"
-        className={({ isActive }) => (isActive ? css.active : css.link)}
-      >
-        Register
-      </NavLink>
-      <NavLink
+        label="Register"
+        value="/register"
+        sx={{ flexGrow: 1, textTransform: 'none' }}
+        style={{
+          fontWeight: location.pathname === '/register' ? 'bold' : 'normal',
+          color: location.pathname === '/register' ? '#1976d2' : 'inherit',
+        }}
+      />
+      <Tab
+        component={NavLink}
         to="/login"
-        className={({ isActive }) => (isActive ? css.active : css.link)}
-      >
-        Log In
-      </NavLink>
-    </nav>
+        label="Log In"
+        value="/login"
+        sx={{ flexGrow: 1, textTransform: 'none' }}
+        style={{
+          fontWeight: location.pathname === '/login' ? 'bold' : 'normal',
+          color: location.pathname === '/login' ? '#1976d2' : 'inherit',
+        }}
+      />
+    </Tabs>
   );
 };

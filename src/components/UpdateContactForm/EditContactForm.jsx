@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateContact } from '../../redux/contacts/operations';
-import css from './EditContactForm.module.css';
+import { TextField, Button, Box } from '@mui/material';
 
 const EditContactForm = ({ contact, onClose }) => {
   const [name, setName] = useState('');
@@ -26,30 +26,40 @@ const EditContactForm = ({ contact, onClose }) => {
   if (!contact) return null;
 
   return (
-    <form className={css.editForm} onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Number:
-        <input
-          type="tel"
-          value={number}
-          onChange={e => setNumber(e.target.value)}
-          required
-        />
-      </label>
-      <button type="submit">Save</button>
-      <button type="button" onClick={onClose}>
-        Cancel
-      </button>
-    </form>
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+        width: '100%',
+      }}
+    >
+      <TextField
+        label="Name"
+        value={name}
+        onChange={e => setName(e.target.value)}
+        required
+        fullWidth
+      />
+      <TextField
+        label="Number"
+        value={number}
+        onChange={e => setNumber(e.target.value)}
+        required
+        fullWidth
+        type="tel"
+      />
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Button type="submit" variant="contained" color="primary">
+          Save
+        </Button>
+        <Button onClick={onClose} variant="outlined" color="secondary">
+          Cancel
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

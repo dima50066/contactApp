@@ -1,37 +1,52 @@
 import React from 'react';
-import css from './Contact.module.css';
-import { FaUser } from 'react-icons/fa';
-import { FaPhone } from 'react-icons/fa';
+import { FaUser, FaPhone } from 'react-icons/fa';
 import PropTypes from 'prop-types';
+import { Card, CardContent, Typography, Button, Box } from '@mui/material';
 
 const Contact = ({ contact, onEdit, onDelete }) => {
   return (
-    <li className={css.contactCard}>
-      <div className={css.contactInfo}>
-        <p className={css.contactText}>
+    <Card
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 2,
+        marginBottom: 2,
+      }}
+    >
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Typography
+          variant="body1"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
           <FaUser />
           {contact.name}
-        </p>
-        <p className={css.contactText}>
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+        >
           <FaPhone />
           {contact.number}
-        </p>
-        <button
+        </Typography>
+      </CardContent>
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Button
           onClick={() => onEdit(contact)}
-          type="button"
-          className={css.contactEditBtn}
+          variant="contained"
+          color="primary"
         >
           Edit
-        </button>
-        <button
+        </Button>
+        <Button
           onClick={() => onDelete(contact.id)}
-          type="button"
-          className={css.contactDeleteBtn}
+          variant="outlined"
+          color="secondary"
         >
           Delete
-        </button>
-      </div>
-    </li>
+        </Button>
+      </Box>
+    </Card>
   );
 };
 

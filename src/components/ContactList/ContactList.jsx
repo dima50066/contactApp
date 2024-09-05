@@ -1,18 +1,23 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Modal from 'react-modal';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from '@mui/material';
 import Contact from '../Contact/Contact';
 import EditContactForm from '../../components/UpdateContactForm/EditContactForm';
 import { deleteContact } from '../../redux/contacts/operations';
 import { selectFilteredContacts } from '../../redux/contacts/selectors';
 import css from './ContactList.module.css';
 
-Modal.setAppElement('#root');
-
 const ContactList = () => {
   const filteredContacts = useSelector(selectFilteredContacts);
-
   const dispatch = useDispatch();
+
   const [contactToDelete, setContactToDelete] = useState(null);
   const [contactToEdit, setContactToEdit] = useState(null);
 
@@ -44,32 +49,39 @@ const ContactList = () => {
         ))}
       </ul>
 
-      <Modal
-        isOpen={!!contactToDelete}
-        onRequestClose={() => setContactToDelete(null)}
-        className={css.modalContent}
-        overlayClassName={css.modalBackdrop}
-        closeTimeoutMS={300}
-      >
-        <div className={css.confirmation}>
-          <p>Are you sure you want to delete this contact?</p>
-          <button onClick={confirmDelete}>Yes</button>
-          <button onClick={() => setContactToDelete(null)}>No</button>
-        </div>
-      </Modal>
+      {/* Modal for delete confirmation */}
+      <Dialog open={!!contactToDelete} onClose={() => setContactToDelete(null)}>
+        <DialogTitle>Confirm Deletion</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this contact?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={confirmDelete} color="primary">
+            Yes
+          </Button>
+          <Button onClick={() => setContactToDelete(null)} color="secondary">
+            No
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-      <Modal
-        isOpen={!!contactToEdit}
-        onRequestClose={() => setContactToEdit(null)}
-        className={css.modalContent}
-        overlayClassName={css.modalBackdrop}
-        closeTimeoutMS={300}
+      {/* Modal for edit contact form */}
+      <Dialog
+        open={!!contactToEdit}
+        onClose={() => setContactToEdit(null)}
+        fullWidth
+        maxWidth="sm"
       >
-        <EditContactForm
-          contact={contactToEdit}
-          onClose={() => setContactToEdit(null)}
-        />
-      </Modal>
+        <DialogTitle>Edit Contact</DialogTitle>
+        <DialogContent>
+          <EditContactForm
+            contact={contactToEdit}
+            onClose={() => setContactToEdit(null)}
+          />
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
